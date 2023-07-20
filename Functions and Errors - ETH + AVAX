@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract PrimeNumberChecker {
+    // Function to check if a number is prime
+    function isPrime(uint256 number) public pure returns (bool) {
+        // 0 and 1 are not prime numbers
+        if (number <= 1) {
+            return false;
+        }
+
+        // 2 and 3 are prime numbers
+        if (number <= 3) {
+            return true;
+        }
+
+        // If the number is divisible by 2 or 3, it's not prime
+        if (number % 2 == 0 || number % 3 == 0) {
+            return false;
+        }
+
+        // Check for other factors up to the square root of the number
+        for (uint256 i = 5; i * i <= number; i += 6) {
+            if (number % i == 0 || number % (i + 2) == 0) {
+                return false;
+            }
+        }
+
+        // If no factors were found, the number is prime
+        return true;
+    }
+
+    // Function to check if a number is prime and use require, assert, and revert
+    function checkPrime(uint256 number) public pure returns (string memory) {
+        // Using require
+        require(number > 0, "Number should be greater than 0");
+
+        // Using assert
+        assert(number <= 1000); // We assume the number is within a reasonable range
+
+        // Using revert
+        if (isPrime(number)) {
+            return "The number is prime";
+        } else {
+            revert("The number is not prime");
+        }
+    }
+}
